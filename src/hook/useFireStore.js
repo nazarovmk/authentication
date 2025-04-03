@@ -1,4 +1,4 @@
-import { doc, updateDoc, setDoc } from "firebase/firestore";
+import { doc, updateDoc, setDoc, addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect, useReducer, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -39,7 +39,6 @@ export function useFireStore(c) {
     try {
       await setDoc(doc(db, c, id), data);
       dispatchIfNotCanceled({ type: "ADD_DATA", payload: data });
-      toast.success("Successfully added!");
     } catch (error) {
       dispatchIfNotCanceled({ type: "ERROR", payload: error.message });
       toast.error("This didn't work!");
@@ -52,7 +51,18 @@ export function useFireStore(c) {
     try {
       await updateDoc(userRef, updates);
       dispatchIfNotCanceled({ type: "ADD_DATA", payload: updates });
-      toast.success("Successfully updated!");
+    } catch (error) {
+      dispatchIfNotCanceled({ type: "ERROR", payload: error.message });
+      toast.error("This didn't work!");
+    }
+  };
+
+  const addTask = async (data) => {
+    dispatchIfNotCanceled({ type: "IS_PENDING" });
+    try {
+      await addDoc(collection(db, c), data);
+      toast.success("Document Added");
+      dispatchIfNotCanceled({ type: "ADD_DATA", payload: data });
     } catch (error) {
       dispatchIfNotCanceled({ type: "ERROR", payload: error.message });
       toast.error("This didn't work!");
@@ -63,5 +73,5 @@ export function useFireStore(c) {
     return () => setIsCanceled(true);
   }, []);
 
-  return { addDocument, state, updateDocument };
+  return { ...state, addDocument, updateDocument, addTask };
 }

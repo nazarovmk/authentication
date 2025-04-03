@@ -1,11 +1,11 @@
 function Avatar({ user }) {
-  const { displayName, photoURL } = user;
+  if (!user) return null;
+  const { photoURL } = user;
   return (
-    <div className="avatar flex flex-col items-center gap-5 text-black">
+    <div className="avatar flex flex-col items-center text-black mb-3">
       <div className="w-24 rounded-[50%] bg-gray-100">
         <img src={photoURL} />
       </div>
-      <h3 className="text-xl font-medium text-center">Hello, {displayName}</h3>
     </div>
   );
 }

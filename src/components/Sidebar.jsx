@@ -3,69 +3,67 @@ import Avatar from "./Avatar";
 import { RxDashboard } from "react-icons/rx";
 import { MdCreateNewFolder } from "react-icons/md";
 import { IoIosSettings } from "react-icons/io";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Link, useLocation } from "react-router-dom";
 
 function Sidebar() {
-  const { user } = useSelector((store) => store.user);
-  const [active, setActive] = useState("dashboard");
+  const { user, displayName } = useSelector((store) => store.user);
+  const location = useLocation();
 
   useEffect(() => {
     AOS.init({
-      duration: 600, // Animatsiya tezligi
-      easing: "ease-out-cubic", // Animatsiya tarzi
-      once: true, // Faqat bir marta ishlashini xohlasangiz
+      duration: 600,
+      easing: "ease-out-cubic",
+      once: true,
     });
   }, []);
 
   return (
-    <div className="bg-[oklch(0.673_0.182_276.935)] col-start-1 col-end-3">
+    <div className="bg-gradient-to-r from-blue-500 to-indigo-600 col-start-1 col-end-3">
       <div className="flex items-start justify-center pt-10 px-4 mb-15 cursor-pointer">
         <figure data-aos="flip-up" data-aos-duration="1000">
           <Avatar user={user} />
+          <h3 className="text-xl font-medium text-center">
+            Hello, {user.displayName}
+          </h3>
         </figure>
       </div>
       <div className="flex flex-col items-end gap-3">
-        <div
+        <Link
+          to="/"
           className={`flex items-center gap-2 py-2 px-4 w-40 rounded-l-2xl cursor-pointer ${
-            active === "dashboard"
+            location.pathname === "/"
               ? "bg-gray-600 text-white"
-              : "bg-[oklch(0.673_0.182_276.935)]"
+              : "bg-gradient-to-r from-blue-500 to-indigo-600"
           }`}
-          onClick={() => setActive("dashboard")}
-          data-aos="fade-up"
-          data-aos-delay="100"
         >
           <RxDashboard />
           <span className="whitespace-nowrap">Dashboard</span>
-        </div>
-        <div
+        </Link>
+        <Link
+          to="/create"
           className={`flex items-center gap-2 py-2 px-4 w-40 rounded-l-2xl cursor-pointer ${
-            active === "Create"
+            location.pathname === "/create"
               ? "bg-gray-600 text-white"
-              : "bg-[oklch(0.673_0.182_276.935)]"
+              : "bg-gradient-to-r from-blue-500 to-indigo-600"
           }`}
-          onClick={() => setActive("Create")}
-          data-aos="fade-up"
-          data-aos-delay="300"
         >
           <MdCreateNewFolder />
           <span className="whitespace-nowrap">Create</span>
-        </div>
-        <div
+        </Link>
+        <Link
+          to="/settings"
           className={`flex items-center gap-2 py-2 px-4 w-40 rounded-l-2xl cursor-pointer ${
-            active === "Settings"
+            location.pathname === "/settings"
               ? "bg-gray-600 text-white"
-              : "bg-[oklch(0.673_0.182_276.935)]"
+              : "bg-gradient-to-r from-blue-500 to-indigo-600"
           }`}
-          onClick={() => setActive("Settings")}
-          data-aos="fade-up"
-          data-aos-delay="500"
         >
           <IoIosSettings />
           <span className="whitespace-nowrap">Settings</span>
-        </div>
+        </Link>
       </div>
     </div>
   );

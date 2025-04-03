@@ -14,10 +14,19 @@ export const useSignOut = () => {
   const signout = async () => {
     try {
       setIsPending(true);
-      await updateDocument(auth.currentUser.uid, { isOnline: false });
+      const user = auth.currentUser;
+
+      if (!user) {
+        throw new Error("User not found!");
+      }
+
+      const displayName = user.displayName || "Anonymous";
+
+      await updateDocument(user.uid, { isOnline: false });
       await signOut(auth);
       dispatch(logOut());
-      toast.success("See you soon!");
+
+      toast.success(`See you soon ${user.displayName} 🖐`);
     } catch (error) {
       toast.error(error.message);
     } finally {

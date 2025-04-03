@@ -30,7 +30,7 @@ export const useRegister = () => {
       });
       dispatch(login(user));
       setUser(user);
-      toast.success("Muvaffaqiyatli ro‘yxatdan o‘tildi!");
+      toast.success(`Welcome ${displayName}`);
     } catch (error) {
       toast.error(error.message || "Xatolik yuz berdi!");
     } finally {

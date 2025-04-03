@@ -28,7 +28,7 @@ export const useLogin = () => {
       });
       await updateDocument(user.uid, { isOnline: true });
       setUser(user);
-      toast.success("Muvaffaqiyatli kirildi!");
+      toast.success(`Welcome ${user.displayName}`);
     } catch (error) {
       toast.error(error.message || "Xatolik yuz berdi!");
     } finally {
