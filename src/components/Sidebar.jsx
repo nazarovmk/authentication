@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import Avatar from "./Avatar";
 import { RxDashboard } from "react-icons/rx";
 import { MdCreateNewFolder } from "react-icons/md";
 import { IoIosSettings } from "react-icons/io";
@@ -7,9 +6,10 @@ import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Link, useLocation } from "react-router-dom";
+import Avatar from "./Avatar";
 
-function Sidebar() {
-  const { user, displayName } = useSelector((store) => store.user);
+function Sidebar({ onClose }) {
+  const { user } = useSelector((store) => store.user);
   const location = useLocation();
 
   useEffect(() => {
@@ -21,50 +21,77 @@ function Sidebar() {
   }, []);
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 to-indigo-600 col-start-1 col-end-3">
-      <div className="flex items-start justify-center pt-10 px-4 mb-15 cursor-pointer">
+    <div className="h-full flex flex-col">
+      {/* Close button for mobile */}
+      <div className="lg:hidden flex justify-end p-4">
+        <button
+          onClick={onClose}
+          className="p-1 rounded-md text-white hover:bg-indigo-800 transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* Avatar section */}
+      <div className="flex flex-col items-center pt-4 lg:pt-10 px-4 mb-8 lg:mb-12">
         <figure data-aos="flip-up" data-aos-duration="1000">
           <Avatar user={user} />
-          <h3 className="text-xl font-medium text-center">
-            Hello, {user.displayName}
+          <h3 className="text-xl font-medium text-center text-white mt-4">
+            Hello, {user?.displayName || "User"}
           </h3>
         </figure>
       </div>
-      <div className="flex flex-col items-end gap-3">
+
+      {/* Navigation links */}
+      <nav className="flex flex-col gap-2 px-4 flex-grow pb-8">
         <Link
           to="/"
-          className={`flex items-center gap-2 py-2 px-4 w-40 rounded-l-2xl cursor-pointer ${
-            location.pathname === "/"
-              ? "bg-gray-600 text-white"
-              : "bg-gradient-to-r from-blue-500 to-indigo-600"
+          onClick={onClose}
+          className={`flex items-center gap-3 py-3 px-4 rounded-lg text-white transition-colors ${
+            location.pathname === "/" ? "bg-indigo-800" : "hover:bg-indigo-800"
           }`}
         >
-          <RxDashboard />
-          <span className="whitespace-nowrap">Dashboard</span>
+          <RxDashboard size={20} />
+          <span>Dashboard</span>
         </Link>
         <Link
           to="/create"
-          className={`flex items-center gap-2 py-2 px-4 w-40 rounded-l-2xl cursor-pointer ${
+          onClick={onClose}
+          className={`flex items-center gap-3 py-3 px-4 rounded-lg text-white transition-colors ${
             location.pathname === "/create"
-              ? "bg-gray-600 text-white"
-              : "bg-gradient-to-r from-blue-500 to-indigo-600"
+              ? "bg-indigo-800"
+              : "hover:bg-indigo-800"
           }`}
         >
-          <MdCreateNewFolder />
-          <span className="whitespace-nowrap">Create</span>
+          <MdCreateNewFolder size={20} />
+          <span>Create</span>
         </Link>
         <Link
           to="/settings"
-          className={`flex items-center gap-2 py-2 px-4 w-40 rounded-l-2xl cursor-pointer ${
+          onClick={onClose}
+          className={`flex items-center gap-3 py-3 px-4 rounded-lg text-white transition-colors ${
             location.pathname === "/settings"
-              ? "bg-gray-600 text-white"
-              : "bg-gradient-to-r from-blue-500 to-indigo-600"
+              ? "bg-indigo-800"
+              : "hover:bg-indigo-800"
           }`}
         >
-          <IoIosSettings />
-          <span className="whitespace-nowrap">Settings</span>
+          <IoIosSettings size={20} />
+          <span>Settings</span>
         </Link>
-      </div>
+      </nav>
     </div>
   );
 }

@@ -1,10 +1,21 @@
 function Avatar({ user }) {
   if (!user) return null;
-  const { photoURL } = user;
+  const { photoURL, displayName } = user;
+
   return (
-    <div className="avatar flex flex-col items-center text-black mb-3">
-      <div className="w-24 rounded-[50%] bg-gray-100">
-        <img src={photoURL} />
+    <div className="flex flex-col items-center">
+      <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-gray-200 overflow-hidden border-2 border-white shadow-md">
+        {photoURL ? (
+          <img
+            src={photoURL}
+            alt={displayName || "User"}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-gray-600 text-2xl font-semibold">
+            {displayName?.charAt(0) || "U"}
+          </div>
+        )}
       </div>
     </div>
   );

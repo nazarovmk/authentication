@@ -1,11 +1,16 @@
-function FormTextArea({ label, name }) {
+function FormTextArea({ label, name, placeholder, rows = 3, required }) {
   return (
     <div className="mb-4">
-      <label className="block text-gray-700 font-medium">{label}</label>
+      <label htmlFor={name} className="block text-gray-700 font-medium mb-1">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
       <textarea
-        className="w-full h-24 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200 bg-white text-black"
-        placeholder="Type here"
+        id={name}
         name={name}
+        rows={rows}
+        required={required}
+        placeholder={placeholder}
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 transition-colors"
       ></textarea>
     </div>
   );

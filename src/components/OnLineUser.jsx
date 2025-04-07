@@ -1,57 +1,89 @@
-import { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import { useCollection } from "../hook/useCollection";
+import { FiX } from "react-icons/fi";
 
-function OnLineUser() {
+function OnLineUser({ onClose }) {
   const { data } = useCollection("users");
   const OnlineUsers = data ? data.filter((u) => u.isOnline) : [];
-  const OflineUsers = data ? data.filter((u) => !u.isOnline) : [];
-
-  useEffect(() => {
-    AOS.init({
-      duration: 600,
-      easing: "ease-out-cubic",
-      once: true,
-    });
-    AOS.refresh();
-  }, [data]);
+  const OfflineUsers = data ? data.filter((u) => !u.isOnline) : [];
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 to-indigo-600 col-start-11 col-end-13 flex flex-col pt-10 px-4">
-      <div className="flex flex-col gap-1 mb-5">
-        <h2 data-aos="fade-right">
-          Users Online:{" "}
-          <span className="text-green-700">({OnlineUsers.length})</span>
+    <div className="h-full flex flex-col p-4">
+      {/* Close button for mobile */}
+      <div className="lg:hidden flex justify-end">
+        <button
+          onClick={onClose}
+          className="p-1 rounded-md text-white hover:bg-indigo-800 transition-colors"
+        >
+          <FiX size={24} />
+        </button>
+      </div>
+
+      <div className="flex flex-col gap-1 mb-5 mt-4">
+        <h2 className="text-lg font-semibold">
+          Online Users:{" "}
+          <span className="text-green-300">({OnlineUsers.length})</span>
         </h2>
-        <h2 data-aos="fade-left">
-          Users Ofline: {""}
-          <span className="text-red-600">({OflineUsers.length})</span>
+        <h2 className="text-lg font-semibold">
+          Offline Users:{" "}
+          <span className="text-red-300">({OfflineUsers.length})</span>
         </h2>
       </div>
-      {OnlineUsers.map((u) => (
-        <figure key={u.id} data-aos="zoom-in-up" data-aos-duration="500">
-          <div className="avatar flex items-center gap-3 text-white border rounded-lg p-2 mb-3">
-            <div className="w-10 rounded-[50%] bg-gray-100">
-              <img className="w-full h-full object-cover" src={u.photoURL} />
-            </div>
-            <h3 className="text-md font-medium text-center">{u.displayName}</h3>
-            <span className="bg-green-600 p-1 rounded-[50%] ml-auto"></span>
-          </div>
-        </figure>
-      ))}
 
-      {OflineUsers.map((u) => (
-        <figure key={u.id} data-aos="zoom-in-down" data-aos-duration="500">
-          <div className="avatar flex items-center gap-3 text-white border rounded-lg p-2 mb-3">
-            <div className="w-10 rounded-[50%] bg-gray-100">
-              <img className="w-full h-full object-cover" src={u.photoURL} />
+      <div className="overflow-y-auto flex-1">
+        {/* Online Users */}
+        <div className="mb-6">
+          <h3 className="text-sm font-medium text-indigo-200 mb-2">
+            ACTIVE NOW
+          </h3>
+          {OnlineUsers.map((u) => (
+            <div
+              key={u.id}
+              className="flex items-center gap-3 text-white p-2 rounded-lg hover:bg-indigo-800 transition-colors"
+            >
+              <div className="relative">
+                <div className="w-10 h-10 rounded-full bg-gray-100 flex-shrink-0 overflow-hidden">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={u.photoURL}
+                    alt={u.displayName}
+                  />
+                </div>
+                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-indigo-700"></span>
+              </div>
+              <div>
+                <h3 className="font-medium">{u.displayName}</h3>
+                <p className="text-xs text-indigo-200">Online</p>
+              </div>
             </div>
-            <h3 className="text-md font-medium text-center">{u.displayName}</h3>
-            <span className="bg-red-600 p-1 rounded-[50%] ml-auto"></span>
-          </div>
-        </figure>
-      ))}
+          ))}
+        </div>
+
+        {/* Offline Users */}
+        <div>
+          <h3 className="text-sm font-medium text-indigo-200 mb-2">OFFLINE</h3>
+          {OfflineUsers.map((u) => (
+            <div
+              key={u.id}
+              className="flex items-center gap-3 text-white p-2 rounded-lg hover:bg-indigo-800 transition-colors opacity-70"
+            >
+              <div className="relative">
+                <div className="w-10 h-10 rounded-full bg-gray-100 flex-shrink-0 overflow-hidden">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={u.photoURL}
+                    alt={u.displayName}
+                  />
+                </div>
+                <span className="absolute bottom-0 right-0 w-3 h-3 bg-gray-500 rounded-full border-2 border-indigo-700"></span>
+              </div>
+              <div>
+                <h3 className="font-medium">{u.displayName}</h3>
+                <p className="text-xs text-indigo-200">Offline</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

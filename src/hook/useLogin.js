@@ -16,6 +16,7 @@ export const useLogin = () => {
     setIsPending(true);
     try {
       const req = await signInWithEmailAndPassword(auth, email, password);
+
       const user = req.user;
       dispatch(_login(user));
       await addDocument(user.uid, {
