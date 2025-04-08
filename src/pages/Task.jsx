@@ -54,7 +54,7 @@ function Task() {
     try {
       const commentRef = doc(db, "tasks", id);
       await updateDoc(commentRef, {
-        comments: [...(data.comments || []), comment],
+        comments: [...(data?.comments || []), comment],
       });
       e.target.reset();
       toast.success("Comment added!");
@@ -66,92 +66,47 @@ function Task() {
   return (
     <div className="px-4 py-6 lg:px-6">
       <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-        {/* Task Header */}
-        <div className="p-6 border-b border-gray-200">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            {data.title}
-          </h1>
-
-          <div className="flex items-center text-sm text-gray-500 mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 mr-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            Due:{" "}
-            {data.dueTo && isValid(new Date(data.dueTo))
-              ? format(new Date(data.dueTo), "MMM dd, yyyy")
-              : "No due date"}
-          </div>
-
-          <p className="text-gray-600 whitespace-pre-line">
-            {data.description}
-          </p>
-        </div>
-
-        {/* Comments Section */}
         <div className="p-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Comments</h2>
-
           <div className="space-y-4 mb-8">
-            {(data.comments || []).length > 0 ? (
+            {data?.comments?.length > 0 ? (
               data.comments.map((comment, index) => {
                 const commentDate =
                   comment.createdAt?.toDate?.() || new Date(comment.createdAt);
                 const isValidDate = isValid(commentDate);
+                const isCurrentUser = comment.author.uid === user.uid;
 
                 return (
                   <div
                     key={index}
-                    className={`flex gap-3 ${
-                      comment.author.uid === user.uid ? "justify-end" : ""
+                    className={`chat ${
+                      isCurrentUser ? "chat-end" : "chat-start"
                     }`}
                   >
-                    {comment.author.uid !== user.uid && (
-                      <div className="flex-shrink-0">
-                        <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                          {comment.author.photoURL ? (
-                            <img
-                              src={comment.author.photoURL}
-                              alt={comment.author.displayName}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-gray-600">
-                              {comment.author.displayName?.charAt(0) || "A"}
-                            </div>
-                          )}
-                        </div>
+                    <div className="chat-image avatar">
+                      <div className="w-10 rounded-full">
+                        {comment.author.photoURL ? (
+                          <img
+                            src={comment.author.photoURL}
+                            alt={comment.author.displayName}
+                          />
+                        ) : (
+                          <div className="bg-gray-300 w-full h-full flex items-center justify-center text-white text-lg font-bold">
+                            {comment.author.displayName?.charAt(0) || "U"}
+                          </div>
+                        )}
                       </div>
-                    )}
-
-                    <div
-                      className={`max-w-xs lg:max-w-md rounded-lg p-3 ${
-                        comment.author.uid === user.uid
-                          ? "bg-indigo-100 text-gray-800"
-                          : "bg-gray-100 text-gray-800"
-                      }`}
-                    >
-                      <div className="flex justify-between items-start mb-1">
-                        <span className="font-medium">
-                          {comment.author.displayName}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          {isValidDate
-                            ? format(commentDate, "MMM dd, h:mm a")
-                            : "Unknown time"}
-                        </span>
-                      </div>
-                      <p className="whitespace-pre-line">{comment.content}</p>
+                    </div>
+                    <div className="chat-header">
+                      <time className="text-xs opacity-50 ml-2">
+                        {isValidDate
+                          ? format(commentDate, "h:mm a")
+                          : "Unknown time"}
+                      </time>
+                    </div>
+                    <div className="chat-bubble">{comment.content}</div>
+                    <div className="text-[11px]">
+                      {comment.author.displayName}
                     </div>
                   </div>
                 );

@@ -25,11 +25,13 @@ function Login() {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center flex-col bg-gradient-to-b from-[#f1f4f9] to-[#dff1ff] overflow-hidden font-sans">
+    <section className="min-h-screen flex items-center justify-center flex-col bg-gradient-to-b from-[#f1f4f9] to-[#dff1ff] overflow-hidden font-sans px-4">
+      {/* Blur background elements */}
       <div className="absolute top-[-350px] w-[660px] h-[660px] bg-[#ff35b9] blur-[150px]"></div>
       <div className="absolute bottom-[-150px] left-[100px] w-[500px] h-[500px] bg-[#fffd87] blur-[150px]"></div>
       <div className="absolute bottom-[50px] right-[100px] w-[300px] h-[300px] bg-[#00d2ff] blur-[150px]"></div>
 
+      {/* Floating shapes */}
       <div className="relative">
         <div
           className="absolute top-[-50px] right-[-60px] w-[100px] h-[100px] bg-white/10 backdrop-blur-sm shadow-2xl border border-white/50 rounded-xl animate-float"
@@ -52,8 +54,9 @@ function Login() {
           style={{ animationDelay: "-4s" }}
         ></div>
 
-        <div className="relative w-[400px] min-h-[400px] bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-2xl border border-white/50">
-          <div className="w-full h-full pt-10 pl-10 pr-10 pb-5">
+        {/* Login card */}
+        <div className="relative w-full max-w-md bg-white/10 backdrop-blur-sm rounded-xl shadow-2xl border border-white/50">
+          <div className="w-full h-full pt-10 pl-6 pr-6 pb-5 sm:pl-10 sm:pr-10">
             <h2 className="text-white text-2xl font-semibold tracking-wider mb-10 relative after:content-[''] after:absolute after:left-0 after:bottom-[-10px] after:w-20 after:h-1 after:bg-white">
               Login Form
             </h2>
@@ -85,6 +88,7 @@ function Login() {
                     onClick={togglePasswordVisibility}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white focus:outline-none"
                   >
+                    {/* Icon toggle */}
                     {showPassword ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -162,28 +166,28 @@ function Login() {
                       <path
                         fill="#34a853"
                         d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-                      ></path>
+                      />
                       <path
                         fill="#4285f4"
                         d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-                      ></path>
+                      />
                       <path
                         fill="#fbbc02"
                         d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-                      ></path>
+                      />
                       <path
                         fill="#ea4335"
                         d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-                      ></path>
+                      />
                     </g>
                   </svg>
                   Login with Google
                 </button>
               </div>
             </form>
-            <p className="text-gray-400 items-center justify-center flex">
+            <p className="text-gray-400 items-center justify-center flex text-sm sm:text-base text-center">
               If you don't have an account, please{" "}
-              <NavLink className="text-blue-400 underline" to="/register">
+              <NavLink className="text-blue-400 underline ml-1" to="/register">
                 Register
               </NavLink>
             </p>

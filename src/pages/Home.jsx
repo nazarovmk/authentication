@@ -3,14 +3,17 @@ import { useCollection } from "../hook/useCollection";
 import { useSelector } from "react-redux";
 import "aos/dist/aos.css";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 function Home() {
   const { user } = useSelector((store) => store.user);
   const { data } = useCollection("tasks");
 
-  if (!data) {
-    toast.success(`Welcome back, ${user?.displayName || "User"}!`);
-  }
+  useEffect(() => {
+    if (!data) {
+      toast.success(`Welcome back ${user?.displayName || "User"}!`);
+    }
+  }, [data]);
 
   return (
     <div className="px-4 py-6 lg:px-6">

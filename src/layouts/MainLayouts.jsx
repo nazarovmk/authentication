@@ -108,7 +108,7 @@ function MainLayouts() {
 
       {/* Sidebar - Mobile & Desktop */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-30 w-64 transform transition-transform duration-300
+        className={`fixed lg:static inset-y-0 -0 z-30 w-64 transform transition-transform duration-300
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         bg-gradient-to-b from-blue-600 to-indigo-700 text-white`}
       >
@@ -126,13 +126,11 @@ function MainLayouts() {
 
       {/* Online Users - Mobile & Desktop */}
       <aside
-        className={`fixed lg:static inset-y-0 right-0 z-30 w-64 transform transition-transform duration-300
-        ${
-          onlineUsersOpen
-            ? "translate-x-0"
-            : "translate-x-full lg:translate-x-0"
-        }
-        bg-gradient-to-b from-blue-600 to-indigo-700 text-white overflow-y-auto`}
+        className={`fixed lg:static inset-y-0 right-0 top-[60px] z-30 w-64 transform transition-transform duration-300
+       ${
+         onlineUsersOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
+       }
+       bg-gradient-to-b from-blue-600 to-indigo-700 text-white overflow-y-auto`}
       >
         <OnLineUser onClose={() => setOnlineUsersOpen(false)} />
       </aside>

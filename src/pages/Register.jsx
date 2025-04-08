@@ -26,12 +26,14 @@ function Register() {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center flex-col bg-gradient-to-b from-[#f1f4f9] to-[#dff1ff] overflow-hidden font-sans">
+    <section className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-b from-[#f1f4f9] to-[#dff1ff] overflow-hidden font-sans relative">
+      {/* Blur background elements */}
       <div className="absolute top-[-350px] w-[660px] h-[660px] bg-[#ff35b9] blur-[150px]"></div>
       <div className="absolute bottom-[-150px] left-[100px] w-[500px] h-[500px] bg-[#fffd87] blur-[150px]"></div>
       <div className="absolute bottom-[50px] right-[100px] w-[300px] h-[300px] bg-[#00d2ff] blur-[150px]"></div>
 
-      <div className="relative">
+      <div className="relative w-full max-w-md">
+        {/* Floating blur squares */}
         <div
           className="absolute top-[-50px] right-[-60px] w-[100px] h-[100px] bg-white/10 backdrop-blur-sm shadow-2xl border border-white/50 rounded-xl animate-float"
           style={{ animationDelay: "0s" }}
@@ -53,12 +55,14 @@ function Register() {
           style={{ animationDelay: "-4s" }}
         ></div>
 
-        <div className="relative w-[400px] min-h-[400px] bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-2xl border border-white/50">
-          <div className="w-full h-full pt-10 pl-10 pr-10 pb-5">
+        {/* Form Card */}
+        <div className="relative w-full bg-white/10 backdrop-blur-sm rounded-xl shadow-2xl border border-white/50">
+          <div className="w-full h-full p-6 sm:p-10">
             <h2 className="text-white text-2xl font-semibold tracking-wider mb-10 relative after:content-[''] after:absolute after:left-0 after:bottom-[-10px] after:w-20 after:h-1 after:bg-white">
               Register Form
             </h2>
             <form onSubmit={handleRegister}>
+              {/* Display Name */}
               <div className="flex flex-col w-full mt-5 gap-1">
                 <span className="text-white pl-2">Display Name</span>
                 <input
@@ -70,6 +74,7 @@ function Register() {
                 />
               </div>
 
+              {/* Email */}
               <div className="flex flex-col w-full mt-5 gap-1">
                 <span className="text-white pl-2">Email</span>
                 <input
@@ -81,6 +86,7 @@ function Register() {
                 />
               </div>
 
+              {/* Password */}
               <div className="flex flex-col w-full mt-5 gap-1">
                 <span className="text-white pl-2">Password</span>
                 <div className="relative">
@@ -98,6 +104,7 @@ function Register() {
                     onClick={togglePasswordVisibility}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white focus:outline-none"
                   >
+                    {/* Eye Icon */}
                     {showPassword ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -144,6 +151,8 @@ function Register() {
                   </button>
                 </div>
               </div>
+
+              {/* Submit Button */}
               <div className="mt-5 mb-5">
                 {isPending ? (
                   <button
@@ -155,16 +164,18 @@ function Register() {
                 ) : (
                   <button
                     type="submit"
-                    className="w-full bg-white text-gray-600 p-2 rounded-full font-semibold cursor-pointer shadow-md"
+                    className="w-full bg-white text-gray-600 p-2 rounded-full font-semibold shadow-md"
                   >
                     Register
                   </button>
                 )}
               </div>
+
+              {/* Google Register Button */}
               <div className="mt-5 mb-10">
                 <button
                   type="button"
-                  className="w-full btn bg-white text-gray-600 border-[#e5e5e5] rounded-full p-5"
+                  className="w-full btn bg-white text-gray-600 border-[#e5e5e5] rounded-full p-3 flex items-center justify-center gap-2"
                 >
                   <svg
                     aria-label="Google logo"
@@ -197,7 +208,7 @@ function Register() {
                 </button>
               </div>
             </form>
-            <p className="text-gray-400 items-center justify-center flex">
+            <p className="text-gray-400 text-center">
               If you have an account, please{" "}
               <NavLink className="text-blue-400 underline" to="/login">
                 Login

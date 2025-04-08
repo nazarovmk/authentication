@@ -7,15 +7,33 @@ import MainLayouts from "./layouts/MainLayouts";
 import { Home, Create, Login, Register, Settings } from "./pages";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/config";
 import { authIsReady, login } from "./app/features/UserSlice";
 import Task from "./pages/Task";
+import { useSignOut } from "./hook/useLogout";
+import { useDocument } from "./hook/useDocument";
 
 function App() {
   const dispatch = useDispatch();
   const { user, isAuthReady } = useSelector((store) => store.user);
+
+  const { signout } = useSignOut();
+  const { data: userDoc } = useDocument("users", user?.uid);
+
+  const hasLoggedOut = useRef(false);
+  useEffect(() => {
+    if (
+      user &&
+      userDoc &&
+      userDoc.isOnline === false &&
+      !hasLoggedOut.current
+    ) {
+      signout();
+      hasLoggedOut.current = true;
+    }
+  }, [user, userDoc]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
