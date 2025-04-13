@@ -12,23 +12,25 @@ export const useSignOut = () => {
   const dispatch = useDispatch();
 
   const signout = async () => {
+    setIsPending(true);
+    const user = auth.currentUser;
+
+    if (!user) {
+      toast.error("User not found!");
+      setIsPending(false);
+      return;
+    }
+
     try {
-      setIsPending(true);
-      const user = auth.currentUser;
-
-      if (!user) {
-        throw new Error("User not found!");
-      }
-
-      const displayName = user.displayName || "Anonymous";
-
       await updateDocument(user.uid, { isOnline: false });
+
       await signOut(auth);
+
       dispatch(logOut());
 
-      toast.success(`See you soon ${user.displayName} 🖐`);
+      toast.success(`See you soon ${user.displayName || "Anonymous"} 🖐`);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message || "Xatolik yuz berdi!");
     } finally {
       setIsPending(false);
     }

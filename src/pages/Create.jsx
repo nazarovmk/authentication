@@ -47,7 +47,7 @@ function Create() {
 
   return (
     <div className="px-4 py-6 lg:px-6" data-aos="fade-up">
-      <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
+      <div className="w-full mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">
           Create New Task
         </h2>

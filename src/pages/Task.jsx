@@ -105,7 +105,7 @@ function Task() {
                       </time>
                     </div>
                     <div className="chat-bubble">{comment.content}</div>
-                    <div className="text-[11px]">
+                    <div className="text-[11px] text-black">
                       {comment.author.displayName}
                     </div>
                   </div>
